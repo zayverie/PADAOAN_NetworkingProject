@@ -3,6 +3,12 @@ using Unity.Netcode;
 
 public class MultiplayerMenu : MonoBehaviour
 {
+    void Awake()
+    {
+        // Limits CPU usage by capping frames per second
+        Application.targetFrameRate = 60;
+    }
+
     public void StartHost() //starts the game as both server and client, allowing the player to host a game and play on it
     {
         NetworkManager.Singleton.StartHost();
