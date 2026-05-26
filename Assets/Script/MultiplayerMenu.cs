@@ -12,6 +12,7 @@ public class MultiplayerMenu : NetworkBehaviour
 {
     [Header("UI References")]
     [SerializeField] private GameObject menuUI;
+    [SerializeField] private GameObject healthBar;
     [SerializeField] private TMP_InputField joinCodeInput;
     [SerializeField] private TMP_Text joinCodeText;
     [SerializeField] private TMP_Text statusText;
@@ -93,6 +94,7 @@ public class MultiplayerMenu : NetworkBehaviour
 
                 SetStatus("Host started. Join Code: " + joinCode);
                 HideMenu();
+                ShowHealthBar();
             }
             else
             {
@@ -144,6 +146,7 @@ public class MultiplayerMenu : NetworkBehaviour
             {
                 SetStatus("Client started.");
                 HideMenu();
+                ShowHealthBar();
             }
             else
             {
@@ -171,6 +174,13 @@ public class MultiplayerMenu : NetworkBehaviour
         }
     }
 
+    private void ShowHealthBar()
+    {
+        if (healthBar != null)
+        {
+            healthBar.SetActive(true);
+        }
+    }
     private void SetStatus(string message)
     {
         Debug.Log(message);

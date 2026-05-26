@@ -1,5 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
+using System.Collections;
+using UnityEngine.InputSystem;
 
 public class NetworkPlayerHealth : NetworkBehaviour
 {
@@ -22,6 +24,7 @@ public class NetworkPlayerHealth : NetworkBehaviour
             currentHealth.Value = maxHealth; // Set initial health on the server
         }
         currentHealth.OnValueChanged += OnHealthChange; // Subscribe to health change events for all clients
+
     }
 
     public override void OnNetworkDespawn()
@@ -67,8 +70,13 @@ public class NetworkPlayerHealth : NetworkBehaviour
         Debug.Log($"TakeDamage on {gameObject.name}: {damageAmount}");
         if (currentHealth.Value <= 0) 
         {
-            Respawn();
+            StartCoroutine(HandleDeath()); // Start the death handling coroutine when health reaches zero
         }
+    }
+    IEnumerator HandleDeath()
+    {
+        yield return new WaitForSeconds(2f); // Wait for 2 seconds before respawning, this gives players a moment to see that they have been defeated before they respawn
+        Respawn(); // Call the Respawn method to reset health and reposition the player
     }
     
     [ClientRpc]

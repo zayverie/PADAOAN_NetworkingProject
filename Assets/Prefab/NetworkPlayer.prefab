@@ -248,6 +248,8 @@ MonoBehaviour:
   moveSpeed: 5
   gravity: -9.81
   groundedGravity: -2
+  jumpHeight: 5
+  jumpKey: 32
 --- !u!114 &3292728899548841742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,4 +320,4 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  attackKey: 32
+  attackKey: 113

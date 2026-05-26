@@ -6,7 +6,7 @@ public class NetworkPlayerAttack : NetworkBehaviour
     [SerializeField] private float attackRange = 3f;
     [SerializeField] private int damageAmount = 25;
     [SerializeField] private LayerMask playerLayer; // Layer for player detection
-    [SerializeField] private KeyCode attackKey = KeyCode.Space; // Key to trigger attack
+    [SerializeField] private KeyCode attackKey = KeyCode.Q; // Key to trigger attack
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
