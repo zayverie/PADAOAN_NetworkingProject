@@ -42,7 +42,8 @@ public class NetworkPlayerAttack : NetworkBehaviour
             NetworkPlayerHealth targetHealth = hit.GetComponent<NetworkPlayerHealth>();
             if (targetHealth != null)
             {
-                targetHealth.TakeDamage(damageAmount);
+                Vector3 hitPosition = hit.transform.position; // Get the position of the hit player, this is used to determine where to show the damage popup when the player takes damage
+                targetHealth.TakeDamage(damageAmount, hitPosition); // Apply damage to the target player, this reduces the target player's health and triggers the damage popup to show the damage taken
                 Debug.Log($"{gameObject.name} attacked {hit.gameObject.name} for {damageAmount} damage.");  
                 break; // Only attack one player at a time
             }

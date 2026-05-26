@@ -4,6 +4,7 @@ using Unity.Netcode;
 public class NetworkPlayerHealth : NetworkBehaviour
 {
     [SerializeField] private int maxHealth = 100;
+    [SerializeField] private GameObject damagePopupPrefab; // Prefab for the damage popup, this is used to display the amount of damage taken when the player is hit
     
     // NetworkVariable to synchronize health across clients
     public NetworkVariable<int> currentHealth = new(
@@ -55,16 +56,30 @@ public class NetworkPlayerHealth : NetworkBehaviour
             
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(int damageAmount, Vector3 hitPosition)
     {
         if (!IsServer) return;
 
-        currentHealth.Value -= amount;
+        currentHealth.Value -= damageAmount;
         currentHealth.Value = Mathf.Clamp(currentHealth.Value, 0, maxHealth); // Ensure health does not go below 0s
 
+        ShowDamagePopupClientRpc(damageAmount, hitPosition); // Show damage popup on all clients when damage is taken
+        Debug.Log($"TakeDamage on {gameObject.name}: {damageAmount}");
         if (currentHealth.Value <= 0) 
         {
             Respawn();
+        }
+    }
+    
+    [ClientRpc]
+    private void ShowDamagePopupClientRpc(int damageAmount, Vector3 position) 
+    {
+        Debug.Log($"ShowDamagePopupClientRpc called. Prefab null? {damagePopupPrefab == null}");
+        Debug.Log($"Popup spawned at {position + Vector3.up * 1.5f} for player at {position}");
+        if (damagePopupPrefab != null) 
+        {
+            GameObject popup = Instantiate(damagePopupPrefab, position + Vector3.up * 1.5f, Quaternion.identity); // Instantiate the damage popup at the specified position, this creates a visual effect to show the damage taken when the player is hit
+            popup.GetComponent<DamagePopup>().Setup(damageAmount); // Set up the damage popup with the damage amount, this allows the popup to display the correct damage value to the player
         }
     }
 }

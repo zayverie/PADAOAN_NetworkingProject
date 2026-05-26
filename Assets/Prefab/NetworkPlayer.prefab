@@ -294,6 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NetworkPlayerHealth
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 100
+  damagePopupPrefab: {fileID: 52104798936623597, guid: b12500001b594b74bb1d352519feef10, type: 3}
   currentHealth:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
